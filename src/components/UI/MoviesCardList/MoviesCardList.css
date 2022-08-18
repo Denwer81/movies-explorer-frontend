@@ -50,3 +50,7 @@
     width: 320px;
   }
 }
+
+.card-list__button_hidden {
+  visibility: hidden;
+}

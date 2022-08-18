@@ -1,9 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import PageNotFound from '../NotFound/NotFound';
+import Main from '../Pages/Main/Main';
+import Movies from '../Pages/Movies/Movies';
+import SavedMovies from '../Pages/SavedMovies/SavedMovies';
+import Register from '../Pages/Register/Register';
+import PageNotFound from '../Pages/NotFound/NotFound';
 
 import './App.css';
 
@@ -12,7 +13,7 @@ function App() {
     <div className="wrapper">
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/sign-up" element={<div>Регистрация</div>} />
+        <Route path="/sign-up" element={<Register />} />
         <Route path="/sign-in" element={<div>Войти</div>} />
         <Route path="/profile" element={<div>profile</div>} />
         <Route path="/movies" element={<Movies />} />

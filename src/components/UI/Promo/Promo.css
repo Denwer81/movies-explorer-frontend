@@ -8,6 +8,8 @@
   align-items: center;
   border-radius: 10px;
   background-color: #f5f5f5;
+  background-repeat: no-repeat;
+  background-position: center;
   margin: 14px 14px 0 14px;
   min-height: 586px;
 }
