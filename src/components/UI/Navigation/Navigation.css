@@ -117,7 +117,6 @@
 
 @media screen and (min-width: 768px) {
   .nav__link_type_profile {
-    display: none;
     margin-left: 50px;
   }
 }

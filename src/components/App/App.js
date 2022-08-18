@@ -1,8 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Main from '../Main/Main'
-import Movies from '../Movies/Movies'
-import SavedMovies from '../SavedMovies/SavedMovies'
+import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import PageNotFound from '../NotFound/NotFound';
 
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/profile" element={<div>profile</div>} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

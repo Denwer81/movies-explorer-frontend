@@ -9,13 +9,17 @@ import './Header.css';
 
 function Header() {
   const [isOpenBurger, setIsOpenBurger] = React.useState(false);
-  const [loggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const { width } = useWindowSize()
 
   function handleBtnClick() {
     setIsOpenBurger(!isOpenBurger);
     isOpenBurger ? unlockScroll() : lockScroll()
   }
+
+  useEffect(() => {
+    unlockScroll()
+  }, [])
 
   useEffect(() => {
     if (width >= 768) {
@@ -36,9 +40,9 @@ function Header() {
           onClick={handleBtnClick}>
           <span className={`burger-btn__item ${isOpenBurger ? 'burger-btn__item_close' : ''}`}></span>
         </button>
-        <Navigation loggedIn={loggedIn} isOpenBurger={isOpenBurger} />
+        <Navigation loggedIn={loggedIn} isOpenBurger={isOpenBurger} setIsOpenBurger={ setIsOpenBurger } />
       </header>
-      {/* <button onClick={() => setLoggedIn(!loggedIn)}>войти</button> */}
+      <button onClick={() => setLoggedIn(!loggedIn)}>войти</button>
     </>
   );
 }

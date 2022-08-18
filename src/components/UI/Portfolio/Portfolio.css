@@ -44,10 +44,11 @@
 }
 
 .portfolio__link-arrow {
+  height: 1px;
   transition: .15s all ease-in;
 }
 .portfolio__item:hover .portfolio__link-arrow{
-  transform: rotate(45deg) scale(1.1);
+  transform: rotate(45deg) scale(1.2);
 }
 
 .portfolio__item:not(:last-child) {

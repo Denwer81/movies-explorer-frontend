@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useClosePopupEsc from '../../../hooks/useClosePopupEsc';
 
 import './Navigation.css';
 
-function Navigation({ loggedIn, isOpenBurger }) {
+function Navigation({ loggedIn, isOpenBurger, setIsOpenBurger }) {
+
+  useClosePopupEsc(isOpenBurger, setIsOpenBurger);
 
   return (
     <>
       {loggedIn
         ?
-        <nav className={`${!isOpenBurger && 'nav_hidden'} ${isOpenBurger && 'nav'}`}>
+        <nav
+          className={`${!isOpenBurger && 'nav_hidden'} ${isOpenBurger && 'nav'}`}>
           <ul className={`nav__list ${isOpenBurger && 'nav__list_active'}`}>
             <li className='nav__elem'>
               <NavLink
@@ -32,10 +36,10 @@ function Navigation({ loggedIn, isOpenBurger }) {
                 Сохранённые фильмы
               </NavLink>
             </li>
-            <li className='nav__elem'>
+            <li className='nav__elem' >
               <Link
                 to="/profile"
-                className={`nav__link nav__link_type_profile ${isOpenBurger && 'nav__link_active'}`} >
+                className={`nav__link nav__link_type_profile ${isOpenBurger && 'nav__link_active'}`}>
                 Аккаунт
               </Link>
             </li>
@@ -47,14 +51,14 @@ function Navigation({ loggedIn, isOpenBurger }) {
             <li>
               <Link
                 to="/sign-up"
-                className='nav__link nav__link_active nav__link_unloged' >
+                className='nav__link nav__link_active nav__link_unloged'>
                 Регистрация
               </Link>
             </li>
             <li>
               <Link
                 to="/sign-in"
-                className='nav__link nav__link_active nav__link_unloged nav__link_type_login' >
+                className='nav__link nav__link_active nav__link_unloged nav__link_type_login'>
                 Войти
               </Link>
             </li>

@@ -9,5 +9,5 @@ export function unlockScroll() {
   setTimeout(() => {
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
-  }, 300);
+  }, 100);
 }
