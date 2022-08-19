@@ -8,10 +8,10 @@ import MoviesCardList from '../../UI/MoviesCardList/MoviesCardList';
 
 import './SavedMovies.css';
 
-function SavedMovies() {
+function SavedMovies(isLoggedIn) {
   return (
     <>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <SearchForm />
       {/* <Preloader /> */}
       {/* <NoResult /> */}

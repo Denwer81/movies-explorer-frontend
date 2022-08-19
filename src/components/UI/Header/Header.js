@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import useWindowSize from '../../../hooks/useWindowSize';
@@ -7,9 +7,8 @@ import { lockScroll, unlockScroll } from '../../../utils/scroll';
 import mainLogo from '../../../images/logo.svg';
 import './Header.css';
 
-function Header() {
-  const [isOpenBurger, setIsOpenBurger] = React.useState(false);
-  const [loggedIn, setLoggedIn] = React.useState(false);
+function Header({ isLoggedIn }) {
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
   const { width } = useWindowSize()
 
   function handleBtnClick() {
@@ -23,8 +22,8 @@ function Header() {
 
   useEffect(() => {
     if (width >= 768) {
-      setIsOpenBurger(false);
-      unlockScroll();
+      setIsOpenBurger(false)
+      unlockScroll()
     }
   }, [width])
 
@@ -35,14 +34,13 @@ function Header() {
           <img className="header__logo" src={mainLogo} alt="logo" />
         </Link>
         <button
-          className={`burger-btn ${loggedIn && 'burger-btn_active'} ${isOpenBurger && 'burger-btn_on'}`}
+          className={`burger-btn ${isLoggedIn && 'burger-btn_active'} ${isOpenBurger && 'burger-btn_on'}`}
           type='button'
           onClick={handleBtnClick}>
           <span className={`burger-btn__item ${isOpenBurger ? 'burger-btn__item_close' : ''}`}></span>
         </button>
-        <Navigation loggedIn={loggedIn} isOpenBurger={isOpenBurger} setIsOpenBurger={ setIsOpenBurger } />
+        <Navigation isLoggedIn={isLoggedIn} isOpenBurger={isOpenBurger} setIsOpenBurger={setIsOpenBurger} />
       </header>
-      <button onClick={() => setLoggedIn(!loggedIn)}>войти</button>
     </>
   );
 }

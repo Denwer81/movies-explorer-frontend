@@ -9,11 +9,11 @@ import Footer from '../../UI/Footer/Footer';
 
 import './Main.css';
 
-function Main() {
+function Main({ isLoggedIn }) {
 
   return (
     <>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <Promo />
       <AboutProject />
       <Techs />

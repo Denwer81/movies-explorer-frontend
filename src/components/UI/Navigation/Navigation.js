@@ -4,13 +4,13 @@ import useClosePopupEsc from '../../../hooks/useClosePopupEsc';
 
 import './Navigation.css';
 
-function Navigation({ loggedIn, isOpenBurger, setIsOpenBurger }) {
+function Navigation({ isLoggedIn, isOpenBurger, setIsOpenBurger }) {
 
   useClosePopupEsc(isOpenBurger, setIsOpenBurger);
 
   return (
     <>
-      {loggedIn
+      {isLoggedIn
         ?
         <nav
           className={`${!isOpenBurger && 'nav_hidden'} ${isOpenBurger && 'nav'}`}>

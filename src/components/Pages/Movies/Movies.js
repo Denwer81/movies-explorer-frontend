@@ -5,15 +5,13 @@ import SearchForm from '../../UI/SearchForm/SearchForm';
 import MoviesCardList from '../../UI/MoviesCardList/MoviesCardList';
 // import Preloader from '../UI/Preloader/Preloader';
 // import NoResult from '../UI/NoResult/NoResult'
-import Input from '../../UI/Input/Input'
 
 import './Movies.css';
 
-function Movies() {
+function Movies({ isLoggedIn }) {
   return (
     <>
-      <Header />
-      <Input />
+      <Header isLoggedIn={isLoggedIn} />
       <SearchForm />
       {/* <Preloader /> */}
       {/* <NoResult /> */}

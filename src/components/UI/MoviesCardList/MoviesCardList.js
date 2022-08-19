@@ -21,7 +21,7 @@ function MoviesCardList() {
         <MoviesCard />
       </ul>
       <button
-        className={`card-list__button card-list__button_${isAllCardsLoad ?? 'hidden'}`}
+        className={`card-list__button card-list__button_${!isAllCardsLoad && 'hidden'}`}
         type='button'>
         Ещё
       </button>

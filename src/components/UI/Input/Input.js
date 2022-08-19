@@ -2,7 +2,7 @@ import React from "react";
 
 import './Input.css'
 
-function Input({ formName, label, name, type, placeholder, minLength, maxLength }) {
+function Input({ formName, label, name, type, placeholder, minLength, maxLength, data }) {
   const [inputData, setinputData] = React.useState({});
 
   function handleInputData(evt) {
@@ -10,11 +10,13 @@ function Input({ formName, label, name, type, placeholder, minLength, maxLength 
   }
 
   return (
-    <label className="input__label">
-      { label }
+    <label className='input__label'>
+      <span className={`input__label-${data}`}>
+        {label}
+      </span>
       <input
         onChange={handleInputData}
-        className={`input input__${formName}`}
+        className={`input input__${formName} input__${data}`}
         id={`${formName}-${type}`}
         type={type}
         name={`${formName}-${type}`}
