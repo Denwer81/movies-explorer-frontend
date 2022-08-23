@@ -12,10 +12,12 @@ function SavedMovies(isLoggedIn) {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
-      <SearchForm />
-      {/* <Preloader /> */}
-      {/* <NoResult /> */}
-      <MoviesCardList />
+      <main>
+        <SearchForm />
+        {/* <Preloader /> */}
+        {/* <NoResult /> */}
+        <MoviesCardList />
+      </main>
       <Footer />
     </>
   );

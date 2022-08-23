@@ -19,7 +19,7 @@ function Profile({ isLoggedIn, logout }) {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
-      <section className='profile'>
+      <main className='profile'>
         <h2 className='profile__title'>Привет, Денис!</h2>
         <form className='profile__form'>
           <Input
@@ -52,7 +52,7 @@ function Profile({ isLoggedIn, logout }) {
               </div>
           }
         </form>
-      </section>
+      </main>
     </>
   );
 }
