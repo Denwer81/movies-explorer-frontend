@@ -5,9 +5,20 @@ import Input from '../../UI/Input/Input';
 import './Login.css';
 
 function Login({ login }) {
+  const [inputs, setInputs] = React.useState({});
+  const [inputData, setinputData] = React.useState({});
 
   function handleSubmitForm() {
-    login()
+    const { ['login-password']: password, ['login-email']: email } = inputData
+
+    login(password, email);
+    Object.values(inputs).forEach(input => input.current.value = '');
+    setinputData({});
+  }
+
+  function handleInput(input) {
+    setInputs({ ...inputs, [input.current.name]: input})
+    setinputData({ ...inputData, [input.current.name]: input.current.value });
   }
 
   return (
@@ -25,6 +36,7 @@ function Login({ login }) {
           label="E-mail"
           type="email"
           placeholder="Введите ваш E-mail"
+          handleInput={handleInput}
         />
         <Input
           formName="login"
@@ -33,6 +45,7 @@ function Login({ login }) {
           placeholder="Введите ваш пароль"
           minLength="3"
           maxLength="30"
+          handleInput={handleInput}
         />
       </Form>
     </main>

@@ -22,6 +22,7 @@
 .search__container {
   width: 100%;
   min-height: 46px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   background: #F4F4F4;
@@ -53,10 +54,19 @@
   }
 }
 
-
 .search__input:focus {
   outline: 1px solid rgba(0, 0, 0, .15);
   border-radius: 48px;
+}
+
+.search__error {
+  position: absolute;
+  top: 50px;
+  left: 15px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
 }
 
 .search__button {

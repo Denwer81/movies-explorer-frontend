@@ -1,19 +1,38 @@
 import React, { useState } from 'react';
 import Header from '../../UI/Header/Header';
 import Input from '../../UI/Input/Input';
-
+import { editProfile } from '../../../utils/MainApi'
 import './Profile.css';
 
 function Profile({ isLoggedIn, logout }) {
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
+  const [inputs, setInputs] = React.useState({});
+  const [inputData, setinputData] = React.useState({});
+
+  const form = React.useRef();
+  const [isValid, setIsValid] = React.useState(false);
+
+  function setValidityForm() {
+    setIsValid(form.current.checkValidity());
+  }
 
   function handleClick() {
-    setIsEdit(true)
+    setIsEdit(true);
   }
 
   function handleSubmitForm(evt) {
-    evt.preventDefault()
-    setIsEdit(false)
+    const { ['register-email']: email, ['register-text']: name } = inputData
+
+    evt.preventDefault();
+    editProfile(name, email);
+    Object.values(inputs).forEach(input => input.current.value = '');
+    setinputData({});
+    setIsEdit(false);
+  }
+
+  function handleInput(input) {
+    setInputs({ ...inputs, [input.current.name]: input })
+    setinputData({ ...inputData, [input.current.name]: input.current.value });
   }
 
   return (
@@ -21,7 +40,7 @@ function Profile({ isLoggedIn, logout }) {
       <Header isLoggedIn={isLoggedIn} />
       <main className='profile'>
         <h2 className='profile__title'>Привет, Денис!</h2>
-        <form className='profile__form'>
+        <form className='profile__form' ref={form} onInput={setValidityForm}>
           <Input
             formName="register"
             label="Имя"
@@ -30,6 +49,8 @@ function Profile({ isLoggedIn, logout }) {
             minLength="2"
             maxLength="30"
             data="profile"
+            isEdit={isEdit}
+            handleInput={handleInput}
           />
           <Input
             formName="login"
@@ -37,6 +58,8 @@ function Profile({ isLoggedIn, logout }) {
             type="email"
             placeholder="Введите ваш E-mail"
             data="profile"
+            isEdit={isEdit}
+            handleInput={handleInput}
           />
           {
             !isEdit
@@ -48,7 +71,13 @@ function Profile({ isLoggedIn, logout }) {
               :
               <div className='button__container'>
                 <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
-                <button className='profile__submit' type='submit' onClick={handleSubmitForm}>Сохранить</button>
+                <button
+                  className='profile__submit'
+                  type='submit'
+                  onClick={handleSubmitForm}
+                  disabled={isValid ? false : true}>
+                  Сохранить
+                </button>
               </div>
           }
         </form>
