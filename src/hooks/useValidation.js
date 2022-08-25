@@ -35,17 +35,6 @@ export function useFormWithValidation() {
     });
   };
 
-  // const resetForm = useCallback(() => {
-  //   setValues({});
-  //   setErrors({});
-  //   setIsValid(false);
-  //   setTimeout(() => {
-  //     Object.values(inputs).forEach(input => input.value = '')
-  //   }, 700)
-  // },
-  //   [setValues, setErrors, setIsValid]
-  // );
-
   function resetForm () {
     setValues({});
     setErrors({});

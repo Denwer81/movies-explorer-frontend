@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import { register, authorize } from '../utils/MainApi'
+import { register, authorize, getProfile, editProfile } from '../utils/MainApi'
 
 function useAuth() {
   let navigate = useNavigate();
@@ -50,19 +50,29 @@ function useAuth() {
       })
   }
 
-  // function login(email, password) {
-  //   authorize(email, password)
-  //   setIsLoggedIn(true);
-  //   navigate('/movies');
-  // }
-
   function logout() {
     localStorage.removeItem('jwt');
     setIsLoggedIn(false);
     navigate('/');
   }
 
-  return { isLoggedIn, signIn, login, logout, token, errorMessage, isLoading }
+  function getUser(setCurrentUser) {
+    getProfile(token)
+      .then(userData => {
+        setCurrentUser({
+          _id: userData._id,
+          name: userData.name,
+          email: userData.email
+        })
+        .catch(err => console.log(err));
+    })
+  }
+
+  function updateProfile() {
+    editProfile()
+  }
+
+  return { isLoggedIn, signIn, login, logout, getUser, updateProfile, token, errorMessage, isLoading }
 }
 
 export default useAuth;

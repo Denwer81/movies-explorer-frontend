@@ -9,6 +9,7 @@ import MoviesCardList from '../../UI/MoviesCardList/MoviesCardList';
 import './Movies.css';
 
 function Movies({ isLoggedIn }) {
+
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
