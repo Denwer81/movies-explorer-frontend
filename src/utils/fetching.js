@@ -8,8 +8,9 @@ export function handleFetch({ url, method, token }, data) {
     body: JSON.stringify(data)
   })
     .then(res => {
-      if (res.ok) res.json();
-
+      if (res.ok) {
+        return res.json()
+      }
       return res.json().then((res) => {
         throw new Error(res.message);
       });

@@ -1,25 +1,19 @@
 import React from 'react';
 import Form from '../../UI/Form/Form';
 import Input from '../../UI/Input/Input';
-import { register } from '../../../utils/MainApi'
-
+import { register } from '../../../utils/MainApi';
+import { userNameRegex } from '../../../utils/constants';
+import { useFormWithValidation } from '../../../hooks/useValidation';
 import './Register.css';
 
 function Register() {
-  const [inputs, setInputs] = React.useState({});
-  const [inputData, setinputData] = React.useState({});
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
-    const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = inputData
+    const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = values
 
     register(name, email, password);
-    Object.values(inputs).forEach(input => input.current.value = '');
-    setinputData({});
-  }
-
-  function handleInput(input) {
-    setInputs({ ...inputs, [input.current.name]: input})
-    setinputData({ ...inputData, [input.current.name]: input.current.value });
+    resetForm();
   }
 
   return (
@@ -31,6 +25,7 @@ function Register() {
         text='Уже зарегистрированы?'
         link='/sign-in'
         linkText='Войти'
+        isValid={isValid}
         handleSubmitForm={handleSubmitForm}>
         <Input
           formName="register"
@@ -39,14 +34,17 @@ function Register() {
           placeholder="Введите ваше имя"
           minLength="2"
           maxLength="30"
-          handleInput={handleInput}
+          pattern={userNameRegex}
+          handleInput={handleChange}
+          errors={errors}
         />
         <Input
           formName="register"
           label="E-mail"
           type="email"
           placeholder="Введите ваш E-mail"
-          handleInput={handleInput}
+          handleInput={handleChange}
+          errors={errors}
         />
         <Input
           formName="register"
@@ -55,7 +53,8 @@ function Register() {
           placeholder="Введите ваш пароль"
           minLength="3"
           maxLength="30"
-          handleInput={handleInput}
+          handleInput={handleChange}
+          errors={errors}
         />
       </Form>
     </main>

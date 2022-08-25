@@ -1,38 +1,24 @@
 import React, { useState } from 'react';
 import Header from '../../UI/Header/Header';
 import Input from '../../UI/Input/Input';
-import { editProfile } from '../../../utils/MainApi'
+import { editProfile } from '../../../utils/MainApi';
+import { useFormWithValidation } from '../../../hooks/useValidation';
 import './Profile.css';
 
 function Profile({ isLoggedIn, logout }) {
   const [isEdit, setIsEdit] = useState(false);
-  const [inputs, setInputs] = React.useState({});
-  const [inputData, setinputData] = React.useState({});
-
-  const form = React.useRef();
-  const [isValid, setIsValid] = React.useState(false);
-
-  function setValidityForm() {
-    setIsValid(form.current.checkValidity());
-  }
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleClick() {
     setIsEdit(true);
   }
 
   function handleSubmitForm(evt) {
-    const { ['register-email']: email, ['register-text']: name } = inputData
+    const { ['register-email']: email, ['register-text']: name } = values
 
     evt.preventDefault();
     editProfile(name, email);
-    Object.values(inputs).forEach(input => input.current.value = '');
-    setinputData({});
-    setIsEdit(false);
-  }
-
-  function handleInput(input) {
-    setInputs({ ...inputs, [input.current.name]: input })
-    setinputData({ ...inputData, [input.current.name]: input.current.value });
+    resetForm();
   }
 
   return (
@@ -40,7 +26,7 @@ function Profile({ isLoggedIn, logout }) {
       <Header isLoggedIn={isLoggedIn} />
       <main className='profile'>
         <h2 className='profile__title'>Привет, Денис!</h2>
-        <form className='profile__form' ref={form} onInput={setValidityForm}>
+        <form className='profile__form'>
           <Input
             formName="register"
             label="Имя"
@@ -50,7 +36,8 @@ function Profile({ isLoggedIn, logout }) {
             maxLength="30"
             data="profile"
             isEdit={isEdit}
-            handleInput={handleInput}
+            handleInput={handleChange}
+            errors={errors}
           />
           <Input
             formName="login"
@@ -59,7 +46,8 @@ function Profile({ isLoggedIn, logout }) {
             placeholder="Введите ваш E-mail"
             data="profile"
             isEdit={isEdit}
-            handleInput={handleInput}
+            handleInput={handleChange}
+            errors={errors}
           />
           {
             !isEdit

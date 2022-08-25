@@ -3,13 +3,7 @@ import { Link } from 'react-router-dom';
 import mainLogo from '../../../images/logo.svg';
 import './Form.css'
 
-function AuthForm({ children, formName, title, buttonText, text, link, linkText, handleSubmitForm }) {
-  const form = React.useRef();
-  const [isValid, setIsValid] = React.useState(false);
-
-  function setValidityForm() {
-    setIsValid(form.current.checkValidity());
-  }
+function AuthForm({ children, formName, title, buttonText, text, link, linkText, isValid, handleSubmitForm }) {
 
   function handleSubmit(evt) {
     evt.preventDefault()
@@ -25,10 +19,8 @@ function AuthForm({ children, formName, title, buttonText, text, link, linkText,
       </div>
       <h2 className='form__title'>{title}</h2>
       <form
-        ref={form}
         className='form__main-form'
         onSubmit={(evt) => handleSubmit(evt)}
-        onInput={setValidityForm}
         name={`${formName}-form`}
         noValidate >
         {children}

@@ -68,7 +68,7 @@
   padding: 0;
   margin-bottom: 16px;
   cursor: pointer;
-  transition: all .2s ease-in;
+  transition: opacity .2s ease-in;
 }
 
 .profile__edit:hover {
@@ -90,7 +90,7 @@
   color: #EE3465;
   padding: 0;
   cursor: pointer;
-  transition: all .2s ease-in;
+  transition: opacity .2s ease-in;
 }
 
 .profile__logout:hover {
@@ -123,7 +123,8 @@
   line-height: 15px;
   color: white;
   cursor: pointer;
-  transition: all .2s ease-in;
+  transition: opacity .2s ease-in;
+  transition: background-color .2s ease-in;
   margin-top: auto;
   padding: 0;
 }

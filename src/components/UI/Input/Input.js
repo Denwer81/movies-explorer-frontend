@@ -11,14 +11,13 @@ function Input({
   maxLength,
   data,
   handleInput,
-  isEdit
-}){
-  const [inputValidationMessage, setInputValidationMessage] = React.useState();
-  const input = React.useRef(null);
+  isEdit,
+  pattern,
+  errors
+}) {
 
-  function handleInputData() {
-    setInputValidationMessage(input.current.validationMessage)
-    handleInput(input);
+  function handleInputData(evt) {
+    handleInput(evt);
   }
 
   return (
@@ -27,7 +26,6 @@ function Input({
         {label}
       </span>
       <input
-        ref={input}
         onChange={handleInputData}
         className={`input input__${formName} input__${data}`}
         id={`${formName}-${type}`}
@@ -36,12 +34,13 @@ function Input({
         placeholder={placeholder}
         minLength={minLength}
         maxLength={maxLength}
-        disabled={isEdit ? false : true}
+        disabled={(isEdit === undefined || isEdit === true) ? false : true}
+        pattern={pattern}
         required />
       <span
         className='input__error'
         id={`${formName}-${name}-input-error`}>
-        {inputValidationMessage}
+        {errors[`${formName}-${type}`]}
       </span>
     </label>
   )
