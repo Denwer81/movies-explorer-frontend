@@ -4,8 +4,11 @@ function useWindowSize() {
   const [size, setSize] = useState({});
   useLayoutEffect(() => {
     function updateSize() {
-      setSize({ width: window.innerWidth, heigth: window.innerHeight });
+      setTimeout(() => {
+        setSize({ width: window.innerWidth, heigth: window.innerHeight });
+      }, 100)
     }
+
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize);

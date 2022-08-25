@@ -75,7 +75,6 @@
   color: white;
   cursor: pointer;
   transition: all .2s ease-in;
-  margin-top: auto;
   padding: 0;
 }
 
@@ -87,6 +86,21 @@
   background-color: #F8F8F8;
   color: #C2C2C2;
   cursor: auto;
+}
+
+.form__error {
+  min-height: 13px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #FF004C;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.form__error_hidden {
+  visibility: hidden;
 }
 
 .form__redirect-container {

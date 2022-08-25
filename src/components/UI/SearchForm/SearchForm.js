@@ -10,7 +10,7 @@ const SearchForm = () => {
   }
 
   return (
-    <form className='search'>
+    <form className='search' noValidate>
       <div className='search__container'>
         <input
           ref={input}

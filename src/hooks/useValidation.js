@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import { useState } from "react";
 import { isEmail } from "validator";
 
 export function useFormWithValidation() {
-  const [values, setValues] = React.useState({});
-  const [errors, setErrors] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
+  const [values, setValues] = useState({});
+  const [inputs, setInputs] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   const handleChange = (event) => {
     const input = event.target;
@@ -12,6 +13,7 @@ export function useFormWithValidation() {
     const value = input.value;
 
     setValues({ ...values, [name]: value });
+    setInputs({ ...inputs, [name]: input })
 
     setErrors(() => {
       if (input.type === 'email' && !isEmail(input.value)) {
@@ -33,13 +35,25 @@ export function useFormWithValidation() {
     });
   };
 
-  const resetForm = useCallback(() => {
+  // const resetForm = useCallback(() => {
+  //   setValues({});
+  //   setErrors({});
+  //   setIsValid(false);
+  //   setTimeout(() => {
+  //     Object.values(inputs).forEach(input => input.value = '')
+  //   }, 700)
+  // },
+  //   [setValues, setErrors, setIsValid]
+  // );
+
+  function resetForm () {
     setValues({});
     setErrors({});
     setIsValid(false);
-  },
-    [setValues, setErrors, setIsValid]
-  );
+    setTimeout(() => {
+      Object.values(inputs).forEach(input => input.value = '')
+    }, 300)
+  }
 
   return { values, handleChange, errors, isValid, resetForm };
 }

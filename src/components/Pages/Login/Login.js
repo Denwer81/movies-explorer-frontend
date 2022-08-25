@@ -4,13 +4,13 @@ import Input from '../../UI/Input/Input';
 import { useFormWithValidation } from '../../../hooks/useValidation'
 import './Login.css';
 
-function Login({ login }) {
+function Login({ login, errorMessage, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
     const { ['login-password']: password, ['login-email']: email } = values
 
-    login(password, email);
+    login(email, password);
     resetForm();
   }
 
@@ -24,7 +24,9 @@ function Login({ login }) {
         link='/sign-up'
         linkText='Регистрация'
         isValid={isValid}
-        handleSubmitForm={handleSubmitForm}>
+        handleSubmitForm={handleSubmitForm}
+        errorMessage={errorMessage}
+        isLoading={isLoading}>
         <Input
           formName="login"
           label="E-mail"

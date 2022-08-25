@@ -3,13 +3,13 @@ import { movieUrlApi } from "./constants";
 import { baseUrlApi } from "./constants";
 
 export function getMovies(token) {
-  handleFetch({ url: `${movieUrlApi}`, method: 'GET', token });
+  return handleFetch({ url: `${movieUrlApi}`, method: 'GET', token });
 }
 
 export function addMovies(token, data) {
-  handleFetch({ url: `${baseUrlApi}`, method: 'POST',token }, data);
+  return handleFetch({ url: `${baseUrlApi}`, method: 'POST',token }, data);
 }
 
 export function deleteMovies(token, movieId) {
-  handleFetch({ url: `${baseUrlApi}${movieId}`, method: 'DELETE',token });
+  return handleFetch({ url: `${baseUrlApi}${movieId}`, method: 'DELETE',token });
 }

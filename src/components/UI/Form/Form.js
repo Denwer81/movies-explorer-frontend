@@ -1,9 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import mainLogo from '../../../images/logo.svg';
+import Preloader from '../Preloader/Preloader'
 import './Form.css'
 
-function AuthForm({ children, formName, title, buttonText, text, link, linkText, isValid, handleSubmitForm }) {
+function AuthForm({
+  children,
+  formName,
+  title,
+  buttonText,
+  text,
+  link,
+  linkText,
+  isValid,
+  handleSubmitForm,
+  errorMessage,
+  isLoading }) {
 
   function handleSubmit(evt) {
     evt.preventDefault()
@@ -24,6 +36,8 @@ function AuthForm({ children, formName, title, buttonText, text, link, linkText,
         name={`${formName}-form`}
         noValidate >
         {children}
+        <Preloader isLoading={isLoading} />
+        <span className='form__error'>{errorMessage}</span>
         <button className='form__button' type="submit" disabled={isValid ? false : true}>
           {buttonText}
         </button>

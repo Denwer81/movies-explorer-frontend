@@ -111,6 +111,10 @@
   margin-bottom: 20px;
 }
 
+.profile__error_hidden {
+  visibility: hidden;
+}
+
 .profile__submit {
   display: block;
   width: 100%;

@@ -1,18 +1,17 @@
 import React from 'react';
 import Form from '../../UI/Form/Form';
 import Input from '../../UI/Input/Input';
-import { register } from '../../../utils/MainApi';
 import { userNameRegex } from '../../../utils/constants';
 import { useFormWithValidation } from '../../../hooks/useValidation';
 import './Register.css';
 
-function Register() {
+function Register({ signIn, errorMessage, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
     const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = values
 
-    register(name, email, password);
+    signIn(name, email, password)
     resetForm();
   }
 
@@ -26,7 +25,9 @@ function Register() {
         link='/sign-in'
         linkText='Войти'
         isValid={isValid}
-        handleSubmitForm={handleSubmitForm}>
+        handleSubmitForm={handleSubmitForm}
+        errorMessage={errorMessage}
+        isLoading={isLoading}>
         <Input
           formName="register"
           label="Имя"

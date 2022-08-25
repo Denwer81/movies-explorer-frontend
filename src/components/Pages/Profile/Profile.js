@@ -58,7 +58,7 @@ function Profile({ isLoggedIn, logout }) {
               </div>
               :
               <div className='button__container'>
-                <span className='profile__error'>При обновлении профиля произошла ошибка.</span>
+                <span className='profile__error profile__error_hidden'>При обновлении профиля произошла ошибка.</span>
                 <button
                   className='profile__submit'
                   type='submit'
