@@ -9,53 +9,73 @@ import Login from '../Pages/Login/Login';
 import Profile from '../Pages/Profile/Profile';
 import PageNotFound from '../Pages/NotFound/NotFound';
 import useAuth from '../../hooks/useAuth'
+import ProtectedRoutes from '../UI/ProtectedRoutes/ProtectedRoutes';
 import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const { isLoggedIn, signIn, login, logout, getUser, errorMessage, isLoading } = useAuth()
+  const {
+    isLoggedIn,
+    handleRegister,
+    handleLogin,
+    handleLogout,
+    handleGetProfile,
+    handleEditProfile,
+    checkToken,
+    errorMessage,
+    isLoading,
+  } = useAuth()
 
   useEffect(() => {
-      if (isLoggedIn) {
-        getUser(setCurrentUser)
-      }
-    }, [isLoggedIn]);
+    checkToken();
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      handleGetProfile(setCurrentUser)
+    }
+  }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="wrapper">
         <Routes>
           <Route path="/"
-            element={<Main isLoggedIn={isLoggedIn} />}
-          />
+            element={<Main isLoggedIn={isLoggedIn} />
+            } />
           <Route path="/sign-up"
             element={
               <Register
-                signIn={signIn}
+                handleRegister={handleRegister}
                 errorMessage={errorMessage}
-                isLoading={isLoading} />}
-          />
+                isLoading={isLoading} />
+            } />
           <Route path="/sign-in"
             element={
               <Login
-                login={login}
+                handleLogin={handleLogin}
                 errorMessage={errorMessage}
-                isLoading={isLoading} />}
-          />
-          <Route path="/profile"
-            element={<Profile
-              isLoggedIn={isLoggedIn}
-              logout={logout}
-              errorMessage={errorMessage}
-              isLoading={isLoading} />}
-          />
-          <Route path="/movies"
-            element={<Movies isLoggedIn={isLoggedIn} />}
-          />
-          <Route path="/saved-movies"
-            element={<SavedMovies isLoggedIn={isLoggedIn} />}
-          />
-          <Route path="*" element={<PageNotFound />} />
+                isLoading={isLoading} />
+            } />
+          <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
+            <Route path="/profile"
+              element={
+                <Profile
+                  isLoggedIn={isLoggedIn}
+                  handleLogout={handleLogout}
+                  handleEditProfile={handleEditProfile}
+                  setCurrentUser={setCurrentUser}
+                  errorMessage={errorMessage}
+                  isLoading={isLoading} />
+              } />
+            <Route path="/movies"
+              element={<Movies isLoggedIn={isLoggedIn} />
+              } />
+            <Route path="/saved-movies"
+              element={<SavedMovies isLoggedIn={isLoggedIn} />
+              } />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
         </Routes>
       </div>
     </CurrentUserContext.Provider>

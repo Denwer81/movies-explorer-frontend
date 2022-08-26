@@ -5,13 +5,13 @@ import { userNameRegex } from '../../../utils/constants';
 import { useFormWithValidation } from '../../../hooks/useValidation';
 import './Register.css';
 
-function Register({ signIn, errorMessage, isLoading }) {
+function Register({ handleRegister, errorMessage, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
     const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = values
 
-    signIn(name, email, password)
+    handleRegister(name, email, password)
     resetForm();
   }
 

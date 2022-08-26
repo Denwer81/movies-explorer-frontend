@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Header from '../../UI/Header/Header';
 import Input from '../../UI/Input/Input';
-import { editProfile } from '../../../utils/MainApi';
 import { useFormWithValidation } from '../../../hooks/useValidation';
+import CurrentUserContext from '../../../contexts/CurrentUserContext';
+import Preloader from '../../UI/Preloader/Preloader'
 import './Profile.css';
 
-function Profile({ isLoggedIn, logout }) {
+function Profile({
+  isLoggedIn,
+  handleLogout,
+  handleEditProfile,
+  setCurrentUser,
+  errorMessage,
+  isLoading
+}) {
+  const currentUser = useContext(CurrentUserContext);
   const [isEdit, setIsEdit] = useState(false);
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
@@ -14,18 +23,24 @@ function Profile({ isLoggedIn, logout }) {
   }
 
   function handleSubmitForm(evt) {
-    const { ['register-email']: email, ['register-text']: name } = values
+    let { ['register-email']: email, ['register-text']: name } = values
 
     evt.preventDefault();
-    editProfile(name, email);
+    handleEditProfile(
+      setCurrentUser,
+      name ? name : currentUser.name,
+      email ? email : currentUser.email);
     resetForm();
+    setTimeout(() => {
+      setIsEdit(false)
+    }, 1500)
   }
 
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <main className='profile'>
-        <h2 className='profile__title'>Привет, Денис!</h2>
+        <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
         <form className='profile__form'>
           <Input
             formName="register"
@@ -54,11 +69,14 @@ function Profile({ isLoggedIn, logout }) {
               ?
               <div className='button__container'>
                 <button className='profile__edit' type='button' onClick={handleClick}>Редактировать</button>
-                <button className='profile__logout' type='button' onClick={logout}>Выйти из аккаунта</button>
+                <button className='profile__logout' type='button' onClick={() => handleLogout(setCurrentUser)}>Выйти из аккаунта</button>
               </div>
               :
               <div className='button__container'>
-                <span className='profile__error profile__error_hidden'>При обновлении профиля произошла ошибка.</span>
+                <div className='profile__preloader'>
+                  <Preloader isLoading={isLoading} />
+                </div>
+                <span className='profile__error'>{errorMessage}</span>
                 <button
                   className='profile__submit'
                   type='submit'

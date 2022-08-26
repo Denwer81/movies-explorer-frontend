@@ -4,13 +4,13 @@ import Input from '../../UI/Input/Input';
 import { useFormWithValidation } from '../../../hooks/useValidation'
 import './Login.css';
 
-function Login({ login, errorMessage, isLoading }) {
+function Login({ handleLogin, errorMessage, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
     const { ['login-password']: password, ['login-email']: email } = values
 
-    login(email, password);
+    handleLogin(email, password);
     resetForm();
   }
 

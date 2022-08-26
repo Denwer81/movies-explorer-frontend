@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef, useContext } from "react";
+import CurrentUserContext from '../../../contexts/CurrentUserContext';
 import './Input.css'
 
 function Input({
@@ -13,12 +14,23 @@ function Input({
   handleInput,
   isEdit,
   pattern,
-  errors
+  errors,
 }) {
+  const currentUser = useContext(CurrentUserContext);
+  const input = useRef();
 
   function handleInputData(evt) {
     handleInput(evt);
   }
+
+  useEffect(() => {
+    if (input.current.name === 'register-text') {
+      input.current.value = currentUser.name || ''
+    }
+    if (input.current.name === 'login-email') {
+      input.current.value = currentUser.email || ''
+    }
+  }, [isEdit])
 
   return (
     <label className='input__label'>
@@ -26,6 +38,7 @@ function Input({
         {label}
       </span>
       <input
+        ref={input}
         onChange={handleInputData}
         className={`input input__${formName} input__${data}`}
         id={`${formName}-${type}`}

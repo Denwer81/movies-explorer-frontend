@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import { register, authorize, getProfile, editProfile } from '../utils/MainApi'
+import { register, login, getProfile, editProfile } from '../utils/MainApi'
 
 function useAuth() {
   let navigate = useNavigate();
@@ -9,28 +9,28 @@ function useAuth() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  function signIn(name, email, password) {
+  function handleRegister(name, email, password) {
     setIsLoading(true);
     register(name, email, password)
       .then((res => {
         if (res) {
-          login(email, password);
+          handleLogin(email, password);
         }
       }))
       .catch(error => {
         setErrorMessage(error.message)
         setTimeout(() => {
           setErrorMessage('')
-        }, 3500)
+        }, 2500)
       })
       .finally(() => {
         setIsLoading(false)
       })
   }
 
-  function login(email, password) {
+  function handleLogin(email, password) {
     setIsLoading(true);
-    authorize( email, password)
+    login(email, password)
       .then((res => {
         if (res.token) {
           localStorage.setItem('jwt', res.token);
@@ -43,20 +43,21 @@ function useAuth() {
         setErrorMessage(error.message)
         setTimeout(() => {
           setErrorMessage('')
-        }, 3500)
+        }, 2500)
       })
       .finally(() => {
         setIsLoading(false)
       })
   }
 
-  function logout() {
+  function handleLogout(setCurrentUser) {
     localStorage.removeItem('jwt');
+    setCurrentUser({});
     setIsLoggedIn(false);
     navigate('/');
   }
 
-  function getUser(setCurrentUser) {
+  function handleGetProfile(setCurrentUser) {
     getProfile(token)
       .then(userData => {
         setCurrentUser({
@@ -64,15 +65,62 @@ function useAuth() {
           name: userData.name,
           email: userData.email
         })
-        .catch(err => console.log(err));
-    })
+      })
+      .catch(err => console.log(err));
   }
 
-  function updateProfile() {
-    editProfile()
+  function handleEditProfile(setCurrentUser, name, email) {
+    setIsLoading(true);
+    editProfile(token, name, email)
+      .then(userData => {
+        setCurrentUser({
+          _id: userData._id,
+          name: userData.name,
+          email: userData.email
+        })
+        setErrorMessage('Вы успешно изменили профиль!')
+        setTimeout(() => {
+          setErrorMessage('')
+        }, 2500)
+      })
+      .catch(error => {
+        setErrorMessage(error.message)
+        setTimeout(() => {
+          setErrorMessage('')
+        }, 2500)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
-  return { isLoggedIn, signIn, login, logout, getUser, updateProfile, token, errorMessage, isLoading }
+  function checkToken() {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+
+      getProfile(jwt)
+        .then((userData) => {
+          if (userData._id) {
+            setToken(jwt);
+            setIsLoggedIn(true);
+            navigate('/movies');
+          } else navigate('/');
+        });
+    }
+  }
+
+  return {
+    isLoggedIn,
+    handleRegister,
+    handleLogin,
+    handleLogout,
+    handleGetProfile,
+    handleEditProfile,
+    checkToken,
+    token,
+    errorMessage,
+    isLoading,
+  }
 }
 
 export default useAuth;
