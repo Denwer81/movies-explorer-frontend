@@ -3,21 +3,26 @@ import Header from '../../UI/Header/Header';
 import Footer from '../../UI/Footer/Footer';
 import SearchForm from '../../UI/SearchForm/SearchForm';
 import MoviesCardList from '../../UI/MoviesCardList/MoviesCardList';
-// import Preloader from '../UI/Preloader/Preloader';
-// import NoResult from '../UI/NoResult/NoResult'
-
+import Preloader from '../../UI/Preloader/Preloader';
+import useMovie from '../../../hooks/useMovies';
 import './Movies.css';
 
-function Movies({ isLoggedIn }) {
+function Movies({ isLoggedIn, token }) {
+  const { handleGetMoviesDB, errorMessage, isLoading } = useMovie();
 
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <main>
-        <SearchForm />
-        {/* <Preloader /> */}
-        {/* <NoResult /> */}
-        <MoviesCardList />
+        <SearchForm
+          handleGetMoviesDB={handleGetMoviesDB}
+          errorMessage={errorMessage}
+          token={token}
+          />
+        {isLoading
+          ? <Preloader isLoading={isLoading} />
+          : <MoviesCardList />
+        }
       </main>
       <Footer />
     </>

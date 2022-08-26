@@ -123,6 +123,9 @@
 
 @media screen and (min-width: 768px) {
   .nav__link_regular {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 155px;
     margin-left: 20px;
     font-weight: 400;
   }

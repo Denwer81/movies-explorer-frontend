@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import NoResult from '../../UI/NoResult/NoResult'
 import MoviesCard from '../MovieCard/MovieCard';
-
 import './MoviesCardList.css';
 
 function MoviesCardList() {
@@ -8,10 +8,11 @@ function MoviesCardList() {
 
   useEffect(() => {
     setisAllCardsLoad(true)
-  },[])
+  }, [])
 
   return (
     <>
+      <NoResult />
       <ul className='card-list'>
         <MoviesCard />
         <MoviesCard />

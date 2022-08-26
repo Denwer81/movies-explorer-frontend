@@ -21,11 +21,16 @@ const SearchForm = ({ token, handleGetMoviesDB, handleGetMovies }) => {
     if (text === '') {
       setErrorMessage('Нужно ввести ключевое слово')
     } else {
-      if (location.pathname === '/movies') {
-        handleGetMoviesDB(text, isChecked)
-      } else {
-        handleGetMovies(token, text, isChecked)
-      }
+
+    }
+
+
+    if (location.pathname === '/movies') {
+      handleGetMoviesDB(text, isChecked)
+    } else {
+      console.log(searchCheckBox.current.checked)
+      console.log(searchText.current.value)
+      handleGetMovies(token, text, isChecked)
     }
   }
 

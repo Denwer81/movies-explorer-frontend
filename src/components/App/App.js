@@ -24,6 +24,7 @@ function App() {
     checkToken,
     errorMessage,
     isLoading,
+    token
   } = useAuth()
 
   useEffect(() => {
@@ -69,10 +70,10 @@ function App() {
                   isLoading={isLoading} />
               } />
             <Route path="/movies"
-              element={<Movies isLoggedIn={isLoggedIn} />
+              element={<Movies isLoggedIn={isLoggedIn} token={token} />
               } />
             <Route path="/saved-movies"
-              element={<SavedMovies isLoggedIn={isLoggedIn} />
+              element={<SavedMovies isLoggedIn={isLoggedIn} token={token} />
               } />
             <Route path="*" element={<PageNotFound />} />
           </Route>
