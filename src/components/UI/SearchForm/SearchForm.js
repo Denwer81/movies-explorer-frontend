@@ -1,19 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import './SearchForm.css';
 
-const SearchForm = ({ token, handleGetMoviesDB, handleGetMovies }) => {
+const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, searchText, durationIsChecked }) => {
   const [errorMessage, setErrorMessage] = useState();
   const location = useLocation();
-  const searchText = useRef('');
+  const searchInput = useRef('');
   const searchCheckBox = useRef('');
 
+  useEffect(() => {
+    searchInput.current.value = searchText;
+    searchCheckBox.current.checked = durationIsChecked;
+  }, [searchText])
+
   function handleInputData() {
-    setErrorMessage(searchText.current.validationMessage)
+    setErrorMessage(searchInput.current.validationMessage)
   }
 
   function handleSubmitForm(evt) {
-    const text = searchText.current.value
+    const text = searchInput.current.value
     const isChecked = searchCheckBox.current.checked
 
     evt.preventDefault()
@@ -22,9 +27,9 @@ const SearchForm = ({ token, handleGetMoviesDB, handleGetMovies }) => {
       setErrorMessage('Нужно ввести ключевое слово')
     } else {
       if (location.pathname === '/movies') {
-        handleGetMoviesDB(text, isChecked)
+        handleGetMoviesGlobal(text, isChecked)
       } else {
-        handleGetMovies(token, text, isChecked)
+        handleGetMoviesLocal(token, text, isChecked)
       }
     }
   }
@@ -33,7 +38,7 @@ const SearchForm = ({ token, handleGetMoviesDB, handleGetMovies }) => {
     <form className='search' noValidate>
       <div className='search__container'>
         <input
-          ref={searchText}
+          ref={searchInput}
           onChange={handleInputData}
           className='search__input'
           type='search' name='search-film'

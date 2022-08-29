@@ -1,11 +1,13 @@
-
 import React from 'react';
-
 import './NoResult.css';
 
-function NoResult() {
+function NoResult({ errorMessage, searchText }) {
+  const message = errorMessage ? errorMessage : 'Ничего не найдено';
+
   return (
-    <p className='no-result'>Ничего не нашлось...</p>
+    <>
+      {searchText ? <p className='no-result'>{`${message}`}</p> : ''}
+    </>
   );
 }
 

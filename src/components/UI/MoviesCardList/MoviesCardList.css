@@ -1,6 +1,6 @@
 .card-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(1, minmax(290px, 1fr));
   justify-items: center;
   gap: 14px;
   max-width: 100%;
@@ -11,6 +11,7 @@
 
 @media screen and (min-width: 768px) {
   .card-list {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
     gap: 24px;
     padding: 70px 30px 30px 30px;
   }
@@ -18,13 +19,11 @@
 
 @media screen and (min-width: 1280px) {
   .card-list {
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-columns: repeat(3, minmax(350px, 1fr));
     gap: 28px;
     padding: 70px 70px 10px 70px;
   }
 }
-
-/* max-width: 320px; */
 
 .card-list__button {
   display: flex;
