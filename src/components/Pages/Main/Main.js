@@ -6,7 +6,6 @@ import Techs from '../../UI/Techs/Techs';
 import AboutMe from '../../UI/AboutMe/AboutMe';
 import Portfolio from '../../UI/Portfolio/Portfolio';
 import Footer from '../../UI/Footer/Footer';
-
 import './Main.css';
 
 function Main({ isLoggedIn }) {

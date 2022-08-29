@@ -15,15 +15,11 @@ function Movies({ isLoggedIn, token }) {
     errorMessage,
     isLoading
   } = useMovie();
-  const {
-    text: searchText = '',
-    result: movies = [],
-    isChecked: durationIsChecked = false
-  } = searchResultGlobal;
 
   useEffect(() => {
     if (localStorage.getItem('globalSearchResult')) {
       setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
+      console.log(searchResultGlobal)
     }
   }, [])
 
@@ -35,14 +31,12 @@ function Movies({ isLoggedIn, token }) {
           handleGetMoviesGlobal={handleGetMoviesGlobal}
           errorMessage={errorMessage}
           token={token}
-          searchText={searchText}
-          durationIsChecked={durationIsChecked}
+          searchResult={searchResultGlobal}
         />
         {isLoading
           ? <Preloader isLoading={isLoading} />
           : <MoviesCardList
-            searchText={searchText}
-            movies={movies}
+            searchResult={searchResultGlobal}
             errorMessage={errorMessage}
           />
         }

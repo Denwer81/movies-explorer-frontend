@@ -9,7 +9,7 @@ function Register({ handleRegister, errorMessage, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleSubmitForm() {
-    const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = values
+    const { ['register-password']: password, ['register-email']: email, ['register-text']: name } = values;
 
     handleRegister(name, email, password)
     resetForm();

@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { getMovies, addMovies, deleteMovies } from '../utils/MoviesApi'
-import useSearch from "./useSearch";
+import { handleSearch } from "../utils/search";
 import { objDB } from "./obj";
 
 function useMovie() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { handleGlobalSearch, handleLocalSearch } = useSearch();
   const [searchResultGlobal, setSearchResultGlobal] = useState({
     searchText: '',
     shortMovie: false,
-    movies: [],
+    movies: [
+
+    ],
   });
   const [searchResultLocal, setSearchResultLocal] = useState({
     searchText: '',
@@ -19,9 +20,12 @@ function useMovie() {
   });
 
   function handleGetMoviesGlobal(text, isChecked) {
-    const result = handleGlobalSearch(objDB, text, isChecked)
+    const result = handleSearch(objDB, text, isChecked)
 
-    handlesavedSearch({ result, text, isChecked })
+    handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
+
+    // localStorage.setItem('globalSearchResult', JSON.stringify({ result, text, isChecked }));
+    // setSearchResultGlobal({ result, text, isChecked })
 
     // setIsLoading(true);
     // getMoviesDB()
@@ -41,14 +45,13 @@ function useMovie() {
     setIsLoading(true);
     getMovies(token)
     .then((movies => {
-      const result = handleLocalSearch(movies, text, isChecked)
+      const result = handleSearch(movies, text, isChecked)
 
-      handlesavedSearch({ result, text, isChecked })
+      handleSavedSearch('localSearchResult', setSearchResultLocal, { result, text, isChecked })
     }))
-      .catch(error => {
-      const result = []
+    .catch(error => {
       setErrorMessage(error.message)
-      handlesavedSearch({ result, text, isChecked })
+      handleSavedSearch('localSearchResult', setSearchResultLocal, { result: [], text, isChecked })
     })
     .finally(() => {
       setIsLoading(false)
@@ -63,9 +66,9 @@ function useMovie() {
     deleteMovies()
   }
 
-  function handlesavedSearch({ result, text, isChecked }) {
-    localStorage.setItem('localSearchResult', JSON.stringify({ result, text, isChecked }));
-    setSearchResultLocal({ result, text, isChecked })
+  function handleSavedSearch(path, func, { result = [], text, isChecked }) {
+    localStorage.setItem(path, JSON.stringify({ result, text, isChecked }));
+    func({ result, text, isChecked })
   }
 
   return {
@@ -77,7 +80,8 @@ function useMovie() {
     isLoading,
     searchResultGlobal,
     setSearchResultGlobal,
-    searchResultLocal
+    searchResultLocal,
+    setSearchResultLocal,
   }
 }
 

@@ -17,7 +17,13 @@ function MovieCard({ movie }) {
         <h2 className="card__title">{movie.nameRU}</h2>
         <p className="card__duration">{movie.duration} минут(a)</p>
       </div>
-      <img className="card__image" src={movie.image} alt={`постер ${movie.nameRU}`}></img>
+      <a
+        className='card__link'
+        href={movie.trailerLink}
+        rel="noreferrer"
+        target="_blank">
+        <img className="card__image" src={movie.image} alt={`постер ${movie.nameRU}`}></img>
+      </a>
       <button
         className={`card__button ${isSaved ? 'card__button_added' : ''}
           ${location.pathname !== '/movies' ? 'card__button_remove' : ''}`}
