@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from '../../UI/Header/Header';
 import Footer from '../../UI/Footer/Footer';
 import SearchForm from '../../UI/SearchForm/SearchForm';
@@ -11,17 +11,10 @@ function Movies({ isLoggedIn, token }) {
   const {
     handleGetMoviesGlobal,
     searchResultGlobal,
-    setSearchResultGlobal,
+    handleAddMovies,
     errorMessage,
     isLoading
   } = useMovie();
-
-  useEffect(() => {
-    if (localStorage.getItem('globalSearchResult')) {
-      setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
-      console.log(searchResultGlobal)
-    }
-  }, [])
 
   return (
     <>
@@ -36,8 +29,10 @@ function Movies({ isLoggedIn, token }) {
         {isLoading
           ? <Preloader isLoading={isLoading} />
           : <MoviesCardList
+            handleAddMovies={handleAddMovies}
             searchResult={searchResultGlobal}
             errorMessage={errorMessage}
+            token={token}
           />
         }
       </main>

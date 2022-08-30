@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Main from '../Pages/Main/Main';
@@ -10,32 +10,33 @@ import Profile from '../Pages/Profile/Profile';
 import PageNotFound from '../Pages/NotFound/NotFound';
 import useAuth from '../../hooks/useAuth'
 import ProtectedRoutes from '../UI/ProtectedRoutes/ProtectedRoutes';
+// import useMovie from '../../hooks/useMovies';
 import './App.css';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({});
   const {
     isLoggedIn,
     handleRegister,
     handleLogin,
     handleLogout,
-    handleGetProfile,
     handleEditProfile,
-    checkToken,
     errorMessage,
     isLoading,
-    token
+    token,
+    currentUser,
+    setCurrentUser
   } = useAuth()
 
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      handleGetProfile(setCurrentUser)
-    }
-  }, [isLoggedIn]);
+  const {
+    handleGetMoviesLocal,
+    handleDeleteMovies,
+    searchResultLocal,
+    handleGetMoviesGlobal,
+    searchResultGlobal,
+    handleAddMovies,
+    errorMessage,
+    isLoading
+  } = useMovie();
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

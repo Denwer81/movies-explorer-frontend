@@ -54,5 +54,5 @@
 }
 
 .card-list__button_hidden {
-  visibility: hidden;
+  display: none;
 }

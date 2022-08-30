@@ -1,17 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocation } from "react-router-dom";
 import './SearchForm.css';
 
-const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, searchResult }) => {
+const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal }) => {
   const [errorMessage, setErrorMessage] = useState();
   const location = useLocation();
   const searchInput = useRef('');
   const searchCheckBox = useRef('');
 
-  useEffect(() => {
-    searchInput.current.value = searchResult.text;
-    searchCheckBox.current.checked = searchResult.isChecked;
-  }, [searchResult])
+  // useEffect(() => {
+  //   console.log(searchResult.text)
+  //   searchInput.current.value = searchResult.text || '';
+  //   searchCheckBox.current.checked = searchResult.isChecked;
+  // }, [searchResult])
 
   function handleInputData() {
     setErrorMessage(searchInput.current.validationMessage)

@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { register, login, getProfile, editProfile } from '../utils/MainApi'
 
 function useAuth() {
   let navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      handleGetProfile()
+    }
+  }, [isLoggedIn]);
 
   function handleRegister(name, email, password) {
     setIsLoading(true);
@@ -50,14 +61,14 @@ function useAuth() {
       })
   }
 
-  function handleLogout(setCurrentUser) {
+  function handleLogout() {
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setIsLoggedIn(false);
     navigate('/');
   }
 
-  function handleGetProfile(setCurrentUser) {
+  function handleGetProfile() {
     getProfile(token)
       .then(userData => {
         setCurrentUser({
@@ -69,7 +80,7 @@ function useAuth() {
       .catch(err => console.log(err));
   }
 
-  function handleEditProfile(setCurrentUser, name, email) {
+  function handleEditProfile(name, email) {
     setIsLoading(true);
     editProfile(token, name, email)
       .then(userData => {
@@ -105,7 +116,8 @@ function useAuth() {
             setIsLoggedIn(true);
             navigate('/movies');
           } else navigate('/');
-        });
+        })
+        .catch(err => console.log(err));
     }
   }
 
@@ -114,12 +126,12 @@ function useAuth() {
     handleRegister,
     handleLogin,
     handleLogout,
-    handleGetProfile,
     handleEditProfile,
     checkToken,
     token,
     errorMessage,
     isLoading,
+    currentUser
   }
 }
 

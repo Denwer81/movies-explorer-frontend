@@ -3,11 +3,17 @@ import { useLocation } from "react-router-dom";
 
 import './MovieCard.css'
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, token, handleAddMovies, handleDeleteMovies }) {
   const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
 
   function handleClick() {
+    if (location.pathname === '/movies') {
+      handleAddMovies(token, movie)
+    } else {
+      console.log(token, movie._id)
+      handleDeleteMovies(token, movie._id)
+    }
     setIsSaved(!isSaved);
   }
 
@@ -17,8 +23,7 @@ function MovieCard({ movie }) {
         <h2 className="card__title">{movie.nameRU}</h2>
         <p className="card__duration">{movie.duration} минут(a)</p>
       </div>
-      <a
-        className='card__link'
+      <a className='card__link'
         href={movie.trailerLink}
         rel="noreferrer"
         target="_blank">

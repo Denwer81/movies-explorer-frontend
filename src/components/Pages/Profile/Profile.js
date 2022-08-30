@@ -10,7 +10,6 @@ function Profile({
   isLoggedIn,
   handleLogout,
   handleEditProfile,
-  setCurrentUser,
   errorMessage,
   isLoading
 }) {
@@ -27,7 +26,6 @@ function Profile({
 
     evt.preventDefault();
     handleEditProfile(
-      setCurrentUser,
       name ? name : currentUser.name,
       email ? email : currentUser.email);
     resetForm();
@@ -69,7 +67,7 @@ function Profile({
               ?
               <div className='button__container'>
                 <button className='profile__edit' type='button' onClick={handleClick}>Редактировать</button>
-                <button className='profile__logout' type='button' onClick={() => handleLogout(setCurrentUser)}>Выйти из аккаунта</button>
+                <button className='profile__logout' type='button' onClick={() => handleLogout()}>Выйти из аккаунта</button>
               </div>
               :
               <div className='button__container'>

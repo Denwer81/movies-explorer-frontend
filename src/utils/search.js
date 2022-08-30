@@ -9,8 +9,8 @@ function search(movies, text, isChecked) {
 
   const filteredMovie = (movies) => {
     return movies.filter(movie => {
-      const nameRu = movie.nameRU || 'нет названия';
-      const nameEn = movie.nameEN || 'нет названия';
+      const nameRu = movie.nameRU;
+      const nameEn = movie.nameEN;
 
       if (nameEn.toLowerCase().includes(searchText) || nameRu.toLowerCase().includes(searchText)) {
         return true;
@@ -25,17 +25,17 @@ function search(movies, text, isChecked) {
 }
 
 function formatedData(data) {
-  if (!data.movieId) {
+  if (!data[0]._id) {
     return data.map((item) => ({
-      country: item.country,
-      director: item.director,
-      duration: item.duration,
-      year: item.year,
-      description: item.description,
+      country: item.country || 'нет данных',
+      director: item.director || 'нет данных',
+      duration: item.duration || 0,
+      year: item.year || 0,
+      description: item.description || 'нет данных',
       image: `https://api.nomoreparties.co/${item.image.url}`,
       trailerLink: item.trailerLink,
-      nameRU: item.nameRU,
-      nameEN: item.nameEN,
+      nameRU: item.nameRU || 'нет названия',
+      nameEN: item.nameEN || 'нет названия',
       thumbnail: `https://api.nomoreparties.co/${item.image.formats.thumbnail.url}`,
       movieId: item.id,
     }));
