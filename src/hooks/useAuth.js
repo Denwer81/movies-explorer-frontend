@@ -11,7 +11,7 @@ function useAuth() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    checkToken();
+      checkToken();
   }, []);
 
   useEffect(() => {
@@ -116,8 +116,7 @@ function useAuth() {
             setIsLoggedIn(true);
             navigate('/movies');
           } else navigate('/');
-        })
-        .catch(err => console.log(err));
+        });
     }
   }
 
@@ -127,6 +126,7 @@ function useAuth() {
     handleLogin,
     handleLogout,
     handleEditProfile,
+    handleGetProfile,
     checkToken,
     token,
     errorMessage,

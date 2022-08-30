@@ -10,7 +10,8 @@ import Profile from '../Pages/Profile/Profile';
 import PageNotFound from '../Pages/NotFound/NotFound';
 import useAuth from '../../hooks/useAuth'
 import ProtectedRoutes from '../UI/ProtectedRoutes/ProtectedRoutes';
-// import useMovie from '../../hooks/useMovies';
+import useMovie from '../../hooks/useMovies';
+// import useInitial from '../../hooks/useInitial';
 import './App.css';
 
 function App() {
@@ -29,14 +30,14 @@ function App() {
 
   const {
     handleGetMoviesLocal,
-    handleDeleteMovies,
-    searchResultLocal,
     handleGetMoviesGlobal,
+    searchResultLocal,
     searchResultGlobal,
+    handleDeleteMovies,
     handleAddMovies,
-    errorMessage,
-    isLoading
-  } = useMovie();
+    errorMovieMessage,
+    isLoadingMovie
+  } = useMovie(token, isLoggedIn);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -71,10 +72,24 @@ function App() {
                   isLoading={isLoading} />
               } />
             <Route path="/movies"
-              element={<Movies isLoggedIn={isLoggedIn} token={token} />
+              element={<Movies
+                isLoggedIn={isLoggedIn}
+                token={token}
+                handleGetMoviesGlobal={handleGetMoviesGlobal}
+                searchResultGlobal={searchResultGlobal}
+                handleAddMovies={handleAddMovies}
+                errorMessage={errorMovieMessage}
+                isLoading={isLoadingMovie} />
               } />
             <Route path="/saved-movies"
-              element={<SavedMovies isLoggedIn={isLoggedIn} token={token} />
+              element={<SavedMovies
+                isLoggedIn={isLoggedIn}
+                token={token}
+                handleGetMoviesLocal={handleGetMoviesLocal}
+                searchResultLocal={searchResultLocal}
+                handleDeleteMovies={handleDeleteMovies}
+                errorMessage={errorMovieMessage}
+                isLoading={isLoadingMovie} />
               } />
             <Route path="*" element={<PageNotFound />} />
           </Route>

@@ -3,15 +3,13 @@ import { getMovies, addMovies, deleteMovies } from '../utils/MoviesApi'
 import { handleSearch } from "../utils/search";
 import { objDB } from "./obj";
 
-function useMovie() {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+function useMovie(token, isLoggedIn) {
+  const [errorMovieMessage, setErrorMovieMessage] = useState('');
+  const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   const [searchResultGlobal, setSearchResultGlobal] = useState({
     searchText: '',
     shortMovie: false,
-    movies: [
-
-    ],
+    movies: [],
   });
   const [searchResultLocal, setSearchResultLocal] = useState({
     searchText: '',
@@ -20,21 +18,27 @@ function useMovie() {
   });
 
   useEffect(() => {
-    handleGetMovies(token)
+    if (token) {
+      handleGetMovies(token)
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    setSearchResultGlobal({
+      searchText: '',
+      shortMovie: false,
+      movies: [],
+    })
   }, [])
 
   useEffect(() => {
-    console.log('юзЭффект сохранения')
     if (localStorage.getItem('localMovie')) {
-      console.log('localMovie')
       setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
     }
     if (localStorage.getItem('globalSearchResult')) {
-      console.log('globalSearchResult')
       setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
     }
     if (localStorage.getItem('localSearchResult')) {
-      console.log('localSearchResult')
       setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
     }
   }, [])
@@ -47,23 +51,23 @@ function useMovie() {
     // localStorage.setItem('globalSearchResult', JSON.stringify({ result, text, isChecked }));
     // setSearchResultGlobal({ result, text, isChecked })
 
-    // setIsLoading(true);
+    // setIsLoadingMovie(true);
     // getMoviesDB()
     //   .then((movies => {
     //     handleGlobalSearch(movies, text, isChecked)
     //     // console.log(movies)
     //   }))
     //   .catch(error => {
-    //     setErrorMessage(error.message)
+    //     setErrorMovieMessage(error.message)
     //   })
     //   .finally(() => {
-    //     setIsLoading(false)
+    //     setIsLoadingMovie(false)
     //   })
   }
 
   function handleGetMoviesLocal(token, text, isChecked) {
     console.log(token, text, isChecked)
-    setIsLoading(true);
+    setIsLoadingMovie(true);
     getMovies(token)
     .then((movies => {
       const result = handleSearch(movies, text, isChecked)
@@ -71,16 +75,16 @@ function useMovie() {
         handleSavedSearch('localSearchResult', setSearchResultLocal, { result, text, isChecked })
       }))
       .catch(error => {
-        setErrorMessage(error.message)
+        setErrorMovieMessage(error.message)
         handleSavedSearch('localSearchResult', setSearchResultLocal, { result: [], text, isChecked })
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoadingMovie(false)
       })
   }
 
   function handleGetMovies(token) {
-    setIsLoading(true);
+    setIsLoadingMovie(true);
     getMovies(token)
       .then((movies => {
         console.log(movies)
@@ -88,10 +92,10 @@ function useMovie() {
         handleSavedSearch('localMovie', setSearchResultLocal, { result: movies, text: '', isChecked: false})
       }))
       .catch(error => {
-        setErrorMessage(error.message)
+        setErrorMovieMessage(error.message)
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoadingMovie(false)
       })
   }
 
@@ -99,11 +103,12 @@ function useMovie() {
     addMovies(token, data)
       .then((movie => {
         console.log(movie)
-        setErrorMessage(movie.nameRU)
+        setErrorMovieMessage(movie.nameRU)
+        handleGetMovies(token)
       }))
       .catch(error => {
         console.log(error)
-        setErrorMessage(error.message)
+        setErrorMovieMessage(error.message)
       })
   }
 
@@ -111,11 +116,12 @@ function useMovie() {
     deleteMovies(token, movieId)
       .then((movie => {
       console.log(movie)
-      setErrorMessage(movie.nameRU)
+        setErrorMovieMessage(movie.nameRU)
+        handleGetMovies(token)
     }))
     .catch(error => {
       console.log(error)
-      setErrorMessage(error.message)
+      setErrorMovieMessage(error.message)
     })
   }
 
@@ -130,8 +136,8 @@ function useMovie() {
     handleGetMovies,
     handleAddMovies,
     handleDeleteMovies,
-    errorMessage,
-    isLoading,
+    errorMovieMessage,
+    isLoadingMovie,
     searchResultGlobal,
     setSearchResultGlobal,
     searchResultLocal,

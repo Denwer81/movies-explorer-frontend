@@ -4,17 +4,17 @@ import Footer from '../../UI/Footer/Footer';
 import SearchForm from '../../UI/SearchForm/SearchForm';
 import MoviesCardList from '../../UI/MoviesCardList/MoviesCardList';
 import Preloader from '../../UI/Preloader/Preloader';
-import useMovie from '../../../hooks/useMovies';
 import './SavedMovies.css';
 
-function SavedMovies({ isLoggedIn, token }) {
-  const {
-    handleGetMoviesLocal,
-    handleDeleteMovies,
-    searchResultLocal,
-    errorMessage,
-    isLoading
-  } = useMovie();
+function SavedMovies({
+  isLoggedIn,
+  token,
+  handleGetMoviesLocal,
+  handleDeleteMovies,
+  searchResultLocal,
+  errorMessage,
+  isLoading,
+}) {
 
   return (
     <>
