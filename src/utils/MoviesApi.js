@@ -1,10 +1,17 @@
-import { handleFetch } from "./fetching";
+import { handleFetch, checkResponse } from "./fetching";
 import { movieUrlApi } from "./constants";
 import { baseUrlApi } from "./constants";
 
-export function getMoviesDB() {
-  return handleFetch({ url: `${movieUrlApi}`, method: 'GET' });
+export function getMoviesDB( ) {
+    return fetch(movieUrlApi, {
+      method: 'GET'
+    })
+      .then(res => checkResponse(res));
 }
+
+// export function getMoviesDB( token ) {
+//   return handleFetch({ url: `${movieUrlApi}`, method: 'GET', token });
+// }
 
 export function getMovies(token) {
   return handleFetch({ url: `${baseUrlApi}movies`, method: 'GET', token });
