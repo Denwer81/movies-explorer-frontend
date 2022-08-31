@@ -12,3 +12,4 @@
 * JavaScript
 
 [Ссылка на проект](https://denwer.nomoredomains.sbs/)
+[Ссылка на пулреквест](https://github.com/Denwer81/movies-explorer-frontend/pull/2)
