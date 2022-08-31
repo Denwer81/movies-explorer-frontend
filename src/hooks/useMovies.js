@@ -93,7 +93,6 @@ function useMovie(token, isLoggedIn) {
         handleGetMovies(token)
       }))
       .catch(error => {
-        console.log(error)
         setErrorMovieMessage(error.message)
       })
   }
@@ -105,7 +104,6 @@ function useMovie(token, isLoggedIn) {
         handleGetMovies(token)
       })
       .catch(error => {
-        console.log(error)
         setErrorMovieMessage(error.message)
       })
   }

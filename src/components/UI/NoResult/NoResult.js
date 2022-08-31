@@ -6,7 +6,7 @@ function NoResult({ errorMessage, searchText }) {
 
   return (
     <>
-      {searchText ? <p className='no-result'>{`${message}`}</p> : ''}
+      {searchText || errorMessage ? <p className='no-result'>{`${message}`}</p> : ''}
     </>
   );
 }
