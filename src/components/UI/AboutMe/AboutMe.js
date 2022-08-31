@@ -1,5 +1,4 @@
 import React from 'react';
-
 import foto from '../../../images/foto.jpg'
 import './AboutMe.css';
 

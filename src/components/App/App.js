@@ -11,7 +11,6 @@ import PageNotFound from '../Pages/NotFound/NotFound';
 import useAuth from '../../hooks/useAuth'
 import ProtectedRoutes from '../UI/ProtectedRoutes/ProtectedRoutes';
 import useMovie from '../../hooks/useMovies';
-// import useInitial from '../../hooks/useInitial';
 import './App.css';
 
 function App() {
@@ -36,7 +35,9 @@ function App() {
     handleDeleteMovies,
     handleAddMovies,
     errorMovieMessage,
-    isLoadingMovie
+    isLoadingMovie,
+    setCurrentCardId,
+    currentCardId,
   } = useMovie(token, isLoggedIn);
 
   return (
@@ -78,8 +79,11 @@ function App() {
                 handleGetMoviesGlobal={handleGetMoviesGlobal}
                 searchResultGlobal={searchResultGlobal}
                 handleAddMovies={handleAddMovies}
+                handleDeleteMovies={handleDeleteMovies}
                 errorMessage={errorMovieMessage}
-                isLoading={isLoadingMovie} />
+                isLoading={isLoadingMovie}
+                currentCardId={currentCardId}
+                setCurrentCardId={setCurrentCardId} />
               } />
             <Route path="/saved-movies"
               element={<SavedMovies

@@ -110,7 +110,7 @@ function useAuth() {
       const jwt = localStorage.getItem('jwt');
 
       getProfile(jwt)
-        .then((userData) => {
+      .then((userData) => {
           if (userData._id) {
             setToken(jwt);
             setIsLoggedIn(true);

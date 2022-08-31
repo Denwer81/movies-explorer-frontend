@@ -12,8 +12,11 @@ function Movies({
   handleGetMoviesGlobal,
   searchResultGlobal,
   handleAddMovies,
+  handleDeleteMovies,
   errorMessage,
   isLoading,
+  setCurrentCardId,
+  currentCardId,
 }) {
 
   return (
@@ -30,9 +33,12 @@ function Movies({
           ? <Preloader isLoading={isLoading} />
           : <MoviesCardList
             handleAddMovies={handleAddMovies}
+            handleDeleteMovies={handleDeleteMovies}
             searchResult={searchResultGlobal}
             errorMessage={errorMessage}
             token={token}
+            currentCardId={currentCardId}
+            setCurrentCardId={setCurrentCardId}
           />
         }
       </main>

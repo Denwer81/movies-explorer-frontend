@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-
 import './MovieCard.css'
 
-function MovieCard({ movie, token, handleAddMovies, handleDeleteMovies }) {
+function MovieCard({
+  movie,
+  token,
+  handleAddMovies,
+  handleDeleteMovies,
+  setCurrentCardId,
+  currentCardId,
+}) {
   const [isSaved, setIsSaved] = useState(false);
   const location = useLocation();
 
-  function handleClick() {
-    if (location.pathname === '/movies') {
-      handleAddMovies(token, movie)
-    } else {
-      console.log(token, movie._id)
-      handleDeleteMovies(token, movie._id)
+  useEffect(() => {
+    setIsSaved(false)
+
+    if (!movie._id) {
+      const localMovies = JSON.parse(localStorage.getItem('localMovie')).result
+      const currentCard = localMovies.filter((data) => data.movieId === movie.movieId)[0]
+
+      if (currentCard !== undefined) {
+        setCurrentCardId(currentCard._id)
+        setIsSaved(true)
+      }
     }
-    setIsSaved(!isSaved);
+  }, [handleClick])
+
+  function handleClick() {
+    if (movie._id) {
+      handleDeleteMovies(token, movie._id)
+    } else {
+      !isSaved
+        ? handleAddMovies(token, movie)
+        : handleDeleteMovies(token, currentCardId)
+    }
   }
 
   return (

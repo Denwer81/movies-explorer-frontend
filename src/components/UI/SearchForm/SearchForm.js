@@ -8,8 +8,6 @@ const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, search
   const searchInput = useRef('');
   const searchCheckBox = useRef('');
 
-  console.log('searchForm render')
-
   useEffect(() => {
     searchInput.current.value = searchResult.text || '';
     searchCheckBox.current.checked = searchResult.isChecked;

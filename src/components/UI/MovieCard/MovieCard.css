@@ -114,6 +114,12 @@
   background-position: center;
   background-repeat: no-repeat;
   background-color: #EE3465;
+  transition: background-color .2s ease-in;
+}
+
+.card__button_added:hover {
+  background-color: #F4F4F4;
+  background-image: url(../../../images/icon__COLOR_icon-main.svg);
 }
 
 .card__button_remove {

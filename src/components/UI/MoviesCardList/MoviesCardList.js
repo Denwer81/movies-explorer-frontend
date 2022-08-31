@@ -4,7 +4,15 @@ import MovieCard from '../MovieCard/MovieCard';
 import { useRenderCount } from "../../../hooks/useRenderCount";
 import './MoviesCardList.css';
 
-function MoviesCardList({ searchResult, errorMessage, token, handleAddMovies, handleDeleteMovies }) {
+function MoviesCardList({
+  searchResult,
+  errorMessage,
+  token,
+  handleAddMovies,
+  handleDeleteMovies,
+  setCurrentCardId,
+  currentCardId,
+}) {
   const { count, handleOpenMore } = useRenderCount();
   const movies = searchResult.result || []
 
@@ -19,7 +27,9 @@ function MoviesCardList({ searchResult, errorMessage, token, handleAddMovies, ha
             token={token}
             handleAddMovies={handleAddMovies}
             handleDeleteMovies={handleDeleteMovies}
-            />
+            setCurrentCardId={setCurrentCardId}
+            currentCardId={currentCardId}
+          />
         })
         }
       </ul>

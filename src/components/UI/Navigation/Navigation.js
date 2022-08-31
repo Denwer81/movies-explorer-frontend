@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useClosePopupEsc from '../../../hooks/useClosePopupEsc';
-
 import './Navigation.css';
 
 function Navigation({ isLoggedIn, isOpenBurger, setIsOpenBurger }) {

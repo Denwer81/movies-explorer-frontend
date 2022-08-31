@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { getMovies, addMovies, deleteMovies } from '../utils/MoviesApi'
+import { getMovies, addMovies, deleteMovies, getMoviesDB } from '../utils/MoviesApi'
 import { handleSearch } from "../utils/search";
-import { objDB } from "./obj";
 
 function useMovie(token, isLoggedIn) {
   const [errorMovieMessage, setErrorMovieMessage] = useState('');
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
+  const [currentCardId, setCurrentCardId] = useState('')
   const [searchResultGlobal, setSearchResultGlobal] = useState({
     searchText: '',
     shortMovie: false,
@@ -33,7 +33,7 @@ function useMovie(token, isLoggedIn) {
 
   useEffect(() => {
     if (localStorage.getItem('localMovie')) {
-      setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
+      setSearchResultLocal(JSON.parse(localStorage.getItem('localMovie')))
     }
     if (localStorage.getItem('globalSearchResult')) {
       setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
@@ -44,33 +44,26 @@ function useMovie(token, isLoggedIn) {
   }, [])
 
   function handleGetMoviesGlobal(text, isChecked) {
-    const result = handleSearch(objDB, text, isChecked)
+    setIsLoadingMovie(true);
+    getMoviesDB()
+      .then((movies => {
+        const result = handleSearch(movies, text, isChecked)
 
-    handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
-
-    // localStorage.setItem('globalSearchResult', JSON.stringify({ result, text, isChecked }));
-    // setSearchResultGlobal({ result, text, isChecked })
-
-    // setIsLoadingMovie(true);
-    // getMoviesDB()
-    //   .then((movies => {
-    //     handleGlobalSearch(movies, text, isChecked)
-    //     // console.log(movies)
-    //   }))
-    //   .catch(error => {
-    //     setErrorMovieMessage(error.message)
-    //   })
-    //   .finally(() => {
-    //     setIsLoadingMovie(false)
-    //   })
+        handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
+      }))
+      .catch(error => {
+        setErrorMovieMessage(error.message)
+      })
+      .finally(() => {
+        setIsLoadingMovie(false)
+      })
   }
 
   function handleGetMoviesLocal(token, text, isChecked) {
-    console.log(token, text, isChecked)
     setIsLoadingMovie(true);
     getMovies(token)
-    .then((movies => {
-      const result = handleSearch(movies, text, isChecked)
+      .then((movies => {
+        const result = handleSearch(movies, text, isChecked)
 
         handleSavedSearch('localSearchResult', setSearchResultLocal, { result, text, isChecked })
       }))
@@ -84,26 +77,19 @@ function useMovie(token, isLoggedIn) {
   }
 
   function handleGetMovies(token) {
-    setIsLoadingMovie(true);
     getMovies(token)
       .then((movies => {
-        console.log(movies)
-        console.log('saved')
-        handleSavedSearch('localMovie', setSearchResultLocal, { result: movies, text: '', isChecked: false})
+        handleSavedSearch('localMovie', setSearchResultLocal, { result: movies, text: '', isChecked: false })
       }))
       .catch(error => {
         setErrorMovieMessage(error.message)
-      })
-      .finally(() => {
-        setIsLoadingMovie(false)
       })
   }
 
   function handleAddMovies(token, data) {
     addMovies(token, data)
       .then((movie => {
-        console.log(movie)
-        setErrorMovieMessage(movie.nameRU)
+        setCurrentCardId(movie._id)
         handleGetMovies(token)
       }))
       .catch(error => {
@@ -114,15 +100,14 @@ function useMovie(token, isLoggedIn) {
 
   function handleDeleteMovies(token, movieId) {
     deleteMovies(token, movieId)
-      .then((movie => {
-      console.log(movie)
-        setErrorMovieMessage(movie.nameRU)
+      .then(() => {
+        setCurrentCardId('')
         handleGetMovies(token)
-    }))
-    .catch(error => {
-      console.log(error)
-      setErrorMovieMessage(error.message)
-    })
+      })
+      .catch(error => {
+        console.log(error)
+        setErrorMovieMessage(error.message)
+      })
   }
 
   function handleSavedSearch(path, func, { result, text, isChecked }) {
@@ -142,6 +127,8 @@ function useMovie(token, isLoggedIn) {
     setSearchResultGlobal,
     searchResultLocal,
     setSearchResultLocal,
+    setCurrentCardId,
+    currentCardId,
   }
 }
 

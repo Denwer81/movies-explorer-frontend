@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import useWindowSize from '../../../hooks/useWindowSize';
 import { lockScroll, unlockScroll } from '../../../utils/scroll';
-
 import mainLogo from '../../../images/logo.svg';
 import './Header.css';
 
