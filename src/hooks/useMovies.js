@@ -5,23 +5,8 @@ import { handleSearch } from "../utils/search";
 function useMovie(token, isLoggedIn) {
   const [errorMovieMessage, setErrorMovieMessage] = useState('');
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
-  const [currentCardId, setCurrentCardId] = useState('')
-  const [searchResultGlobal, setSearchResultGlobal] = useState({
-    searchText: '',
-    shortMovie: false,
-    movies: [],
-  });
-  const [searchResultLocal, setSearchResultLocal] = useState({
-    searchText: '',
-    shortMovie: false,
-    movies: [],
-  });
-
-  useEffect(() => {
-    if (token) {
-      handleGetMovies(token)
-    }
-  }, [isLoggedIn]);
+  const [searchResultGlobal, setSearchResultGlobal] = useState({});
+  const [searchResultLocal, setSearchResultLocal] = useState({});
 
   useEffect(() => {
     setSearchResultGlobal({
@@ -29,34 +14,63 @@ function useMovie(token, isLoggedIn) {
       shortMovie: false,
       movies: [],
     })
-  }, [])
 
-  useEffect(() => {
-    if (localStorage.getItem('localMovie')) {
-      setSearchResultLocal(JSON.parse(localStorage.getItem('localMovie')))
+    if (token) {
+      handleGetMovies(token)
     }
-    if (localStorage.getItem('globalSearchResult')) {
-      setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
-    }
-    if (localStorage.getItem('localSearchResult')) {
-      setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
-    }
-  }, [])
+  }, [isLoggedIn]);
+
+
+  // useEffect(() => {
+  //   if (token) {
+  //     handleGetMovies(token)
+  //   }
+  // }, [isLoggedIn]);
+
+  // useEffect(() => {
+  //   setSearchResultGlobal({
+  //     searchText: '',
+  //     shortMovie: false,
+  //     movies: [],
+  //   })
+  // }, [isLoggedIn])
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('localMovie')) {
+  //     setSearchResultLocal(JSON.parse(localStorage.getItem('localMovie')))
+  //   }
+  //   if (localStorage.getItem('globalSearchResult')) {
+  //     setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
+  //   }
+  //   if (localStorage.getItem('localSearchResult')) {
+  //     setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
+  //   }
+  // }, [])
 
   function handleGetMoviesGlobal(text, isChecked) {
-    setIsLoadingMovie(true);
-    getMoviesDB()
-      .then((movies => {
-        const result = handleSearch(movies, text, isChecked)
+    const MovieDB = JSON.parse(localStorage.getItem(('MovieDB')));
 
-        handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
-      }))
-      .catch(error => {
-        setErrorMovieMessage(error.message)
-      })
-      .finally(() => {
-        setIsLoadingMovie(false)
-      })
+    if (MovieDB) {
+      const result = handleSearch(MovieDB, text, isChecked)
+
+      localStorage.setItem('MovieDB', JSON.stringify(MovieDB));
+      handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
+    } else {
+      setIsLoadingMovie(true);
+      getMoviesDB()
+        .then((movies => {
+          const result = handleSearch(movies, text, isChecked)
+
+          localStorage.setItem('MovieDB', JSON.stringify(movies));
+          handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
+        }))
+        .catch(error => {
+          setErrorMovieMessage(error.message)
+        })
+        .finally(() => {
+          setIsLoadingMovie(false)
+        })
+    }
   }
 
   function handleGetMoviesLocal(token, text, isChecked) {
@@ -88,10 +102,9 @@ function useMovie(token, isLoggedIn) {
 
   function handleAddMovies(token, data) {
     addMovies(token, data)
-      .then((movie => {
-        setCurrentCardId(movie._id)
+      .then(() => {
         handleGetMovies(token)
-      }))
+      })
       .catch(error => {
         setErrorMovieMessage(error.message)
       })
@@ -100,7 +113,6 @@ function useMovie(token, isLoggedIn) {
   function handleDeleteMovies(token, movieId) {
     deleteMovies(token, movieId)
       .then(() => {
-        setCurrentCardId('')
         handleGetMovies(token)
       })
       .catch(error => {
@@ -125,8 +137,6 @@ function useMovie(token, isLoggedIn) {
     setSearchResultGlobal,
     searchResultLocal,
     setSearchResultLocal,
-    setCurrentCardId,
-    currentCardId,
   }
 }
 

@@ -7,10 +7,9 @@ function MovieCard({
   token,
   handleAddMovies,
   handleDeleteMovies,
-  setCurrentCardId,
-  currentCardId,
 }) {
   const [isSaved, setIsSaved] = useState(false);
+  const [currentCardId, setCurrentCardId] = useState('')
   const location = useLocation();
 
   useEffect(() => {

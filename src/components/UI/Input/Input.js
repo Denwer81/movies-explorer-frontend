@@ -27,7 +27,7 @@ function Input({
     if (input.current.name === 'register-text') {
       input.current.value = currentUser.name || ''
     }
-    if (input.current.name === 'login-email') {
+    if (input.current.name === 'register-email') {
       input.current.value = currentUser.email || ''
     }
   }, [isEdit])

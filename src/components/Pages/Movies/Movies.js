@@ -15,8 +15,6 @@ function Movies({
   handleDeleteMovies,
   errorMessage,
   isLoading,
-  setCurrentCardId,
-  currentCardId,
 }) {
 
   return (
@@ -37,9 +35,7 @@ function Movies({
             searchResult={searchResultGlobal}
             errorMessage={errorMessage}
             token={token}
-            currentCardId={currentCardId}
-            setCurrentCardId={setCurrentCardId}
-          />
+            />
         }
       </main>
       <Footer />

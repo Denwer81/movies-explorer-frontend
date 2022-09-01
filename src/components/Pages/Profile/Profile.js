@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Header from '../../UI/Header/Header';
 import Input from '../../UI/Input/Input';
 import { useFormWithValidation } from '../../../hooks/useValidation';
@@ -15,11 +15,23 @@ function Profile({
 }) {
   const currentUser = useContext(CurrentUserContext);
   const [isEdit, setIsEdit] = useState(false);
+  const [validProfile, setValidProfile] = useState(false);
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
   function handleClick() {
     setIsEdit(true);
   }
+
+  useEffect(() => {
+    const {email: currenEmail, name: currentName} = currentUser
+    const { ['register-email']: email = currenEmail, ['register-text']: name = currentName} = values;
+
+    if (isValid && (email !== currenEmail || name !== currentName)) {
+      setValidProfile(true);
+    } else {
+      setValidProfile(false);
+    }
+  }, [values])
 
   function handleSubmitForm(evt) {
     let { ['register-email']: email, ['register-text']: name } = values
@@ -53,7 +65,7 @@ function Profile({
             errors={errors}
           />
           <Input
-            formName="login"
+            formName="register"
             label="E-mail"
             type="email"
             placeholder="Введите ваш E-mail"
@@ -79,7 +91,7 @@ function Profile({
                   className='profile__submit'
                   type='submit'
                   onClick={handleSubmitForm}
-                  disabled={isValid ? false : true}>
+                  disabled={validProfile ? false : true}>
                   Сохранить
                 </button>
               </div>

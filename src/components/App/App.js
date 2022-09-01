@@ -24,7 +24,7 @@ function App() {
     isLoading,
     token,
     currentUser,
-    setCurrentUser
+    setCurrentUser,
   } = useAuth()
 
   const {
@@ -36,8 +36,6 @@ function App() {
     handleAddMovies,
     errorMovieMessage,
     isLoadingMovie,
-    setCurrentCardId,
-    currentCardId,
   } = useMovie(token, isLoggedIn);
 
   return (
@@ -61,6 +59,7 @@ function App() {
                 errorMessage={errorMessage}
                 isLoading={isLoading} />
             } />
+          <Route path="*" element={<PageNotFound />} />
           <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
             <Route path="/profile"
               element={
@@ -81,9 +80,7 @@ function App() {
                 handleAddMovies={handleAddMovies}
                 handleDeleteMovies={handleDeleteMovies}
                 errorMessage={errorMovieMessage}
-                isLoading={isLoadingMovie}
-                currentCardId={currentCardId}
-                setCurrentCardId={setCurrentCardId} />
+                isLoading={isLoadingMovie} />
               } />
             <Route path="/saved-movies"
               element={<SavedMovies
@@ -95,7 +92,6 @@ function App() {
                 errorMessage={errorMovieMessage}
                 isLoading={isLoadingMovie} />
               } />
-            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </div>

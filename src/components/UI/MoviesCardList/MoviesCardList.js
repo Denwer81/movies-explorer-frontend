@@ -10,8 +10,6 @@ function MoviesCardList({
   token,
   handleAddMovies,
   handleDeleteMovies,
-  setCurrentCardId,
-  currentCardId,
 }) {
   const { count, handleOpenMore } = useRenderCount();
   const movies = searchResult.result || []
@@ -27,8 +25,6 @@ function MoviesCardList({
             token={token}
             handleAddMovies={handleAddMovies}
             handleDeleteMovies={handleDeleteMovies}
-            setCurrentCardId={setCurrentCardId}
-            currentCardId={currentCardId}
           />
         })
         }

@@ -65,6 +65,7 @@ function useAuth() {
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setIsLoggedIn(false);
+    localStorage.clear();
     navigate('/');
   }
 
@@ -116,7 +117,14 @@ function useAuth() {
             setIsLoggedIn(true);
             navigate('/movies');
           } else navigate('/');
-        });
+      })
+        .catch((error) => {
+          navigate('/sign-in');
+          setErrorMessage(error.message)
+          setTimeout(() => {
+            setErrorMessage('')
+          }, 2000)
+        })
     }
   }
 

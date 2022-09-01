@@ -19,6 +19,7 @@ function search(movies, text, isChecked) {
     })
   }
 
+    // return filteredMovie(movies)
   return !isChecked
     ? filteredMovie(movies)
     : filteredMovie(movies).filter(movie => movie.duration <= 40)

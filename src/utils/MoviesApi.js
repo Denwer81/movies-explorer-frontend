@@ -4,9 +4,7 @@ import { movieUrlApi } from "./constants";
 import { baseUrlApi } from "./constants";
 
 export function getMoviesDB( ) {
-    return fetch(movieUrlApi, {
-      method: 'GET'
-    })
+    return fetch(movieUrlApi, { method: 'GET' })
       .then(res => checkResponse(res));
 }
 
