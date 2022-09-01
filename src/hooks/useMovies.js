@@ -9,51 +9,18 @@ function useMovie(token, isLoggedIn) {
   const [searchResultLocal, setSearchResultLocal] = useState({});
 
   useEffect(() => {
-    setSearchResultGlobal({
-      searchText: '',
-      shortMovie: false,
-      movies: [],
-    })
-
     if (token) {
-      handleGetMovies(token)
+      handleGetMoviesLocalDB(token)
     }
   }, [isLoggedIn]);
 
 
-  // useEffect(() => {
-  //   if (token) {
-  //     handleGetMovies(token)
-  //   }
-  // }, [isLoggedIn]);
-
-  // useEffect(() => {
-  //   setSearchResultGlobal({
-  //     searchText: '',
-  //     shortMovie: false,
-  //     movies: [],
-  //   })
-  // }, [isLoggedIn])
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('localMovie')) {
-  //     setSearchResultLocal(JSON.parse(localStorage.getItem('localMovie')))
-  //   }
-  //   if (localStorage.getItem('globalSearchResult')) {
-  //     setSearchResultGlobal(JSON.parse(localStorage.getItem('globalSearchResult')))
-  //   }
-  //   if (localStorage.getItem('localSearchResult')) {
-  //     setSearchResultLocal(JSON.parse(localStorage.getItem('localSearchResult')))
-  //   }
-  // }, [])
-
   function handleGetMoviesGlobal(text, isChecked) {
-    const MovieDB = JSON.parse(localStorage.getItem(('MovieDB')));
+    const movieDB = JSON.parse(localStorage.getItem(('MoviesDB')));
 
-    if (MovieDB) {
-      const result = handleSearch(MovieDB, text, isChecked)
+    if (movieDB) {
+      const result = handleSearch(movieDB, text, isChecked)
 
-      localStorage.setItem('MovieDB', JSON.stringify(MovieDB));
       handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
     } else {
       setIsLoadingMovie(true);
@@ -61,7 +28,7 @@ function useMovie(token, isLoggedIn) {
         .then((movies => {
           const result = handleSearch(movies, text, isChecked)
 
-          localStorage.setItem('MovieDB', JSON.stringify(movies));
+          localStorage.setItem('MoviesDB', JSON.stringify(movies));
           handleSavedSearch('globalSearchResult', setSearchResultGlobal, { result, text, isChecked })
         }))
         .catch(error => {
@@ -73,29 +40,20 @@ function useMovie(token, isLoggedIn) {
     }
   }
 
-  function handleGetMoviesLocal(token, text, isChecked) {
-    setIsLoadingMovie(true);
-    getMovies(token)
-      .then((movies => {
-        const result = handleSearch(movies, text, isChecked)
+  function handleGetMoviesLocal(text, isChecked) {
+    const LocalMoviesDB = JSON.parse(localStorage.getItem(('localMoviesDB'))).result;
+    const result = handleSearch(LocalMoviesDB, text, isChecked)
 
-        handleSavedSearch('localSearchResult', setSearchResultLocal, { result, text, isChecked })
-      }))
-      .catch(error => {
-        setErrorMovieMessage(error.message)
-        handleSavedSearch('localSearchResult', setSearchResultLocal, { result: [], text, isChecked })
-      })
-      .finally(() => {
-        setIsLoadingMovie(false)
-      })
+    handleSavedSearch('localSearchResult', setSearchResultLocal, { result, text, isChecked })
   }
 
-  function handleGetMovies(token) {
+  function handleGetMoviesLocalDB(token) {
     getMovies(token)
       .then((movies => {
-        handleSavedSearch('localMovie', setSearchResultLocal, { result: movies, text: '', isChecked: false })
+        handleSavedSearch('localMoviesDB', setSearchResultLocal, { result: movies, text: '', isChecked: false })
       }))
       .catch(error => {
+        handleSavedSearch('localMoviesDB', setSearchResultLocal, { result: [], text: '', isChecked: false })
         setErrorMovieMessage(error.message)
       })
   }
@@ -103,7 +61,7 @@ function useMovie(token, isLoggedIn) {
   function handleAddMovies(token, data) {
     addMovies(token, data)
       .then(() => {
-        handleGetMovies(token)
+        handleGetMoviesLocalDB(token)
       })
       .catch(error => {
         setErrorMovieMessage(error.message)
@@ -113,7 +71,7 @@ function useMovie(token, isLoggedIn) {
   function handleDeleteMovies(token, movieId) {
     deleteMovies(token, movieId)
       .then(() => {
-        handleGetMovies(token)
+        handleGetMoviesLocalDB(token)
       })
       .catch(error => {
         setErrorMovieMessage(error.message)
@@ -128,7 +86,6 @@ function useMovie(token, isLoggedIn) {
   return {
     handleGetMoviesGlobal,
     handleGetMoviesLocal,
-    handleGetMovies,
     handleAddMovies,
     handleDeleteMovies,
     errorMovieMessage,

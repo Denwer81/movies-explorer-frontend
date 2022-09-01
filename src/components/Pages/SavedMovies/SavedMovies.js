@@ -23,7 +23,6 @@ function SavedMovies({
         <SearchForm
           handleGetMoviesLocal={handleGetMoviesLocal}
           errorMessage={errorMessage}
-          token={token}
           searchResult={searchResultLocal}
         />
         {isLoading

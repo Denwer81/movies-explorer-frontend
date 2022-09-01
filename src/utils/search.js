@@ -1,7 +1,8 @@
 export function handleSearch(data, text, isChecked) {
-  const movies = formatedData(data)
-
-  return search(movies, text, isChecked)
+  if (data.length > 0) {
+    const movies = formatedData(data)
+    return search(movies, text, isChecked)
+  }
 }
 
 function search(movies, text, isChecked) {
@@ -19,7 +20,6 @@ function search(movies, text, isChecked) {
     })
   }
 
-    // return filteredMovie(movies)
   return !isChecked
     ? filteredMovie(movies)
     : filteredMovie(movies).filter(movie => movie.duration <= 40)

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import './SearchForm.css';
 
-const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, searchResult }) => {
+const SearchForm = ({ handleGetMoviesGlobal, handleGetMoviesLocal, searchResult }) => {
   const [errorMessage, setErrorMessage] = useState();
   const location = useLocation();
   const searchInput = useRef('');
@@ -10,11 +10,24 @@ const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, search
 
   useEffect(() => {
     searchInput.current.value = searchResult.text || '';
-    searchCheckBox.current.checked = searchResult.isChecked;
+    searchCheckBox.current.checked = searchResult.isChecked || false;
   }, [searchResult])
 
   function handleInputData() {
     setErrorMessage(searchInput.current.validationMessage)
+  }
+
+  function toggleFilmLength() {
+    if (searchResult.text !== undefined) {
+      const text = searchInput.current.value
+      const isChecked = searchCheckBox.current.checked
+
+      if (location.pathname === '/movies') {
+        handleGetMoviesGlobal(text, isChecked)
+      } else {
+        handleGetMoviesLocal(text, isChecked)
+      }
+    }
   }
 
   function handleSubmitForm(evt) {
@@ -29,7 +42,7 @@ const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, search
       if (location.pathname === '/movies') {
         handleGetMoviesGlobal(text, isChecked)
       } else {
-        handleGetMoviesLocal(token, text, isChecked)
+        handleGetMoviesLocal(text, isChecked)
       }
     }
   }
@@ -56,6 +69,7 @@ const SearchForm = ({ token, handleGetMoviesGlobal, handleGetMoviesLocal, search
         <input
           ref={searchCheckBox}
           className='search__checkbox'
+          onChange={toggleFilmLength}
           id='search__checkbox'
           type='checkbox' />
         <label className='search__label' htmlFor='search__checkbox'>Короткометражки</label>

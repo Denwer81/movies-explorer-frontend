@@ -24,7 +24,6 @@ function Movies({
         <SearchForm
           handleGetMoviesGlobal={handleGetMoviesGlobal}
           errorMessage={errorMessage}
-          token={token}
           searchResult={searchResultGlobal}
         />
         {isLoading

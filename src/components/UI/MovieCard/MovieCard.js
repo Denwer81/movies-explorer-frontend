@@ -16,7 +16,7 @@ function MovieCard({
     setIsSaved(false)
 
     if (!movie._id) {
-      const localMovies = JSON.parse(localStorage.getItem('localMovie')).result
+      const localMovies = JSON.parse(localStorage.getItem('localMoviesDB')).result
       const currentCard = localMovies.filter((data) => data.movieId === movie.movieId)[0]
 
       if (currentCard !== undefined) {
