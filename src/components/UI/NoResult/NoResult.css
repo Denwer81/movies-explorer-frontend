@@ -1,0 +1,12 @@
+.no-result {
+  margin: 80px auto;
+  font-size: 16px;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .no-result {
+    font-size: 18px;
+    margin-top: 50px;
+  }
+}
